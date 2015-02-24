@@ -26,6 +26,9 @@ gem 'spring',        group: :development
 gem 'puma'
 gem 'pg'
 gem 'rack-timeout'
+gem 'slack-rtmapi'
+# gem 'sidekiq'
+# gem 'sinatra'
 
 group :production do
   gem 'rails_12factor'

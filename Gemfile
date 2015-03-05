@@ -27,8 +27,8 @@ gem 'puma'
 gem 'pg'
 gem 'rack-timeout'
 gem 'slack-rtmapi'
-# gem 'sidekiq'
-# gem 'sinatra'
+gem 'sidekiq'
+gem 'sinatra'
 
 group :production do
   gem 'rails_12factor'

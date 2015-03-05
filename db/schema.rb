@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224194544) do
+ActiveRecord::Schema.define(version: 20150305190651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "message_logs", force: true do |t|
-    t.string   "user"
+    t.string   "user_id"
     t.string   "channel"
     t.string   "msg_type"
     t.string   "msg_subtype"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20150224194544) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "timestamp"
+    t.text     "msg_text"
   end
 
   add_index "message_logs", ["slack_room_id"], name: "index_message_logs_on_slack_room_id", using: :btree
@@ -35,6 +36,7 @@ ActiveRecord::Schema.define(version: 20150224194544) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "general_channel"
   end
 
 end

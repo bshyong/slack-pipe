@@ -14,7 +14,7 @@ class SlackRoomPipe
 
   def start!
     begin
-      puts "started listening to room #{@slackroom.name}"
+      Rails.logger.info "started listening to room #{@slackroom.name}"
       messages = Queue.new
 
       t = Thread.new do
@@ -38,12 +38,13 @@ class SlackRoomPipe
           subtype = msg.fetch(:msg_subtype, nil)
 
           if subtype.nil? || ALLOWED_SUBTYPES.include?(subtype.to_sym)
-            p "#{subtype.nil? ? msg['type'] : subtype} in #{@slackroom.name}, channel #{msg['channel']}"
+Rails.            logger.info "#{subtype.nil? ? msg['type'] : subtype} in #{@slackroom.name}, channel #{msg['channel']}"
             MessageLog.create(
-              user: msg['user'], 
+              user_id: msg['user'], 
               channel: msg['channel'],
               msg_type: msg['type'],
               msg_subtype: subtype,
+              msg_text: msg['text'],
               slack_room_id: @slackroom.id,
               timestamp: msg['ts']
             )
@@ -52,7 +53,7 @@ class SlackRoomPipe
       end
       t.abort_on_exception = true
     rescue
-      puts "room #{@slackroom.name} crashed..restarting"
+      Rails.logger.info "room #{@slackroom.name} crashed..restarting"
       self.start!
     end
   end

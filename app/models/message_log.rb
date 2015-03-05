@@ -8,6 +8,7 @@ class MessageLog < ActiveRecord::Base
 
   def publish!
     if channel == slack_room.general_channel
+      puts "trying to publish"
       # publish this message
     end
   end

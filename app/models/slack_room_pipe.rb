@@ -38,7 +38,7 @@ class SlackRoomPipe
           subtype = msg.fetch(:msg_subtype, nil)
 
           if subtype.nil? || ALLOWED_SUBTYPES.include?(subtype.to_sym)
-Rails.            logger.info "#{subtype.nil? ? msg['type'] : subtype} in #{@slackroom.name}, channel #{msg['channel']}"
+            Rails.logger.info "#{subtype.nil? ? msg['type'] : subtype} in #{@slackroom.name}, channel #{msg['channel']}"
             MessageLog.create(
               user_id: msg['user'], 
               channel: msg['channel'],

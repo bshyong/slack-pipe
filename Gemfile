@@ -29,6 +29,7 @@ gem 'rack-timeout'
 gem 'slack-rtmapi'
 gem 'sidekiq'
 gem 'sinatra'
+gem 'faraday'
 
 group :production do
   gem 'rails_12factor'

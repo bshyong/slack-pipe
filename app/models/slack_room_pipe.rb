@@ -35,7 +35,7 @@ class SlackRoomPipe
         loop do
           msg = messages.pop
           # https://api.slack.com/events/message
-          subtype = msg.fetch(:msg_subtype, nil)
+          subtype = msg.fetch('subtype', nil)
 
           if subtype.nil? || ALLOWED_SUBTYPES.include?(subtype.to_sym)
             Rails.logger.info "#{subtype.nil? ? msg['type'] : subtype} in #{@slackroom.name}, channel #{msg['channel']}"

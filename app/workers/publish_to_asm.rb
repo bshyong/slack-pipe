@@ -8,7 +8,6 @@ class PublishToAsm < FaradayClient
     end
   end
 
-
   # payload = {
   #   message: SlackPipe message log
   #   user: SlackPipe user

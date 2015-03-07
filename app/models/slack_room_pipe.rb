@@ -39,15 +39,19 @@ class SlackRoomPipe
 
           if subtype.nil? || ALLOWED_SUBTYPES.include?(subtype.to_sym)
             Rails.logger.info "#{subtype.nil? ? msg['type'] : subtype} in #{@slackroom.name}, channel #{msg['channel']}"
-            MessageLog.create(
-              user_id: msg['user'], 
-              channel: msg['channel'],
-              msg_type: msg['type'],
-              msg_subtype: subtype,
-              msg_text: msg['text'],
-              slack_room_id: @slackroom.id,
-              timestamp: msg['ts']
-            )
+            begin
+              MessageLog.create(
+                user_id: msg['user'], 
+                channel: msg['channel'],
+                msg_type: msg['type'],
+                msg_subtype: subtype,
+                msg_text: msg['text'],
+                slack_room_id: @slackroom.id,
+                timestamp: msg['ts']
+              )
+            rescue ActiveRecord::RecordNotUnique
+              Rails.logger.info "RESCUE: #{msg['text']}"
+            end
           end
         end
       end

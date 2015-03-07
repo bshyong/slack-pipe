@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150306005856) do
+ActiveRecord::Schema.define(version: 20150306230131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20150306005856) do
   end
 
   add_index "message_logs", ["slack_room_id"], name: "index_message_logs_on_slack_room_id", using: :btree
+  add_index "message_logs", ["timestamp", "channel"], name: "index_message_logs_on_timestamp_and_channel", unique: true, using: :btree
 
   create_table "slack_rooms", force: true do |t|
     t.string   "handle"

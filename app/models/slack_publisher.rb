@@ -24,29 +24,29 @@ class SlackPublisher
     post('', payload)
   end
 
-  def testpost
+  def testpost(msg: '')
     payload = {
-      text: "this is a test &amp; #{Time.now}",
+      text: "this is a test &amp; #{Time.now}. \n #{msg}",
       channel: "C03TTCR5P",
       token: "xoxp-2170858457-2731791470-3818967378-dc1f57"
     }
     post('chat.postMessage', payload)
   end
 
-  def connection
-    Faraday.new(url: 'http://localhost:5000/api/sb') do |faraday|
-      faraday.request  :url_encoded
-      faraday.adapter  :net_http
-    end
-  end
-
-
   # def connection
-  #   Faraday.new(url: 'https://slack.com/api/') do |faraday|
+  #   Faraday.new(url: 'http://localhost:5000/api/sb') do |faraday|
   #     faraday.request  :url_encoded
   #     faraday.adapter  :net_http
   #   end
   # end
+
+
+  def connection
+    Faraday.new(url: 'https://slack.com/api/') do |faraday|
+      faraday.request  :url_encoded
+      faraday.adapter  :net_http
+    end
+  end
 
   def request(method, url, body = {})
     resp = connection.send(method) do |req|

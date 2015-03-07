@@ -11,6 +11,7 @@ class MessageLog < ActiveRecord::Base
     if channel == 'C03TTCR5P'#slack_room.general_channel
       payload = AsmPayload.prepare(id)
       PublishToAsm.perform_async(payload)
+      update_column :published_at, Time.now
     end
   end
 end

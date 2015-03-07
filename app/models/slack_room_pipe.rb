@@ -47,7 +47,7 @@ class SlackRoomPipe
                 msg_subtype: subtype,
                 msg_text: msg['text'],
                 slack_room_id: @slackroom.id,
-                timestamp: msg['ts']
+                timestamp: Integer(msg['ts'].gsub('.', ''))
               )
             rescue ActiveRecord::RecordNotUnique
               Rails.logger.info "RESCUE: #{msg['text']}"

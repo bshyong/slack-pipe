@@ -4,6 +4,11 @@ module Slack
     def perform(slack_room_id)
       room = SlackRoom.find(slack_room_id)
       channels = get('channels.list', {token: room.token}).fetch('channels')
+
+      channels.each do |c|
+        room.slack_channels.create(slack_channel_id: c['id'], channel_name: c['name'])
+      end
+
       general_channel_id = channels.find{|c| c['is_general'] == true }['id']
       room.update general_channel: general_channel_id
       users = get('users.list', {token: room.token}).fetch('members', nil)

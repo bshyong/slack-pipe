@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150306230131) do
+ActiveRecord::Schema.define(version: 20150307025345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,12 +24,23 @@ ActiveRecord::Schema.define(version: 20150306230131) do
     t.integer  "slack_room_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "timestamp"
+    t.integer  "timestamp",     limit: 8
     t.text     "msg_text"
+    t.datetime "published_at"
   end
 
   add_index "message_logs", ["slack_room_id"], name: "index_message_logs_on_slack_room_id", using: :btree
   add_index "message_logs", ["timestamp", "channel"], name: "index_message_logs_on_timestamp_and_channel", unique: true, using: :btree
+
+  create_table "slack_channels", force: true do |t|
+    t.string   "slack_channel_id"
+    t.string   "channel_name"
+    t.integer  "slack_room_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "slack_channels", ["slack_room_id"], name: "index_slack_channels_on_slack_room_id", using: :btree
 
   create_table "slack_rooms", force: true do |t|
     t.string   "handle"

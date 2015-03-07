@@ -1,6 +1,7 @@
 class SlackRoom < ActiveRecord::Base
   has_many :message_logs
   has_many :users
+  has_many :slack_channels
 
   after_commit :initialize_room, on: :create
 

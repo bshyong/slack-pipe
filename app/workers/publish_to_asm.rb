@@ -2,7 +2,7 @@ class PublishToAsm < FaradayClient
   include Sidekiq::Worker
 
   def connection
-    Faraday.new(url: 'http://localhost:5000/api/sb') do |faraday|
+    Faraday.new(url: ENV['ASM_ENDPOINT']) do |faraday|
       faraday.request  :url_encoded
       faraday.adapter  :net_http
     end

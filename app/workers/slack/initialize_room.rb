@@ -28,6 +28,7 @@ module Slack
             )
         end
       end
+      room
     end
   end
 end

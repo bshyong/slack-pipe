@@ -8,6 +8,8 @@ class PublishToAsm < FaradayClient
     end
   end
 
+  # generate HMAC headers here, for every request before posting
+
   # payload = {
   #   message: SlackPipe message log
   #   user: SlackPipe user

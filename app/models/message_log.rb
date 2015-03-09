@@ -8,9 +8,10 @@ class MessageLog < ActiveRecord::Base
   after_commit :publish!, on: :create
 
   def publish!
-    if channel == 'C03TTCR5P'#slack_room.general_channel
+    if channel == slack_room.general_channel
       payload = AsmPayload.prepare(id)
       PublishToAsm.perform_async(payload)
+      # TODO: move update published_at into PublishToAsm worker?
       update_column :published_at, Time.now
     end
   end

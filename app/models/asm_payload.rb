@@ -8,16 +8,30 @@ class AsmPayload
     clean_msg_log = message_log.attributes.merge({'msg_text' => clean_msg_body})
 
     payload = {
-      message: clean_msg_log,
-      user: slack_room.users
-                      .where(
-                        slack_user_id: message_log.user_id)
-                      .first.try(:attributes),
-      product: slack_room.name
+      data: {
+        message: clean_msg_log,
+        user: slack_room.users
+                        .where(
+                          slack_user_id: message_log.user_id)
+                        .first.try(:attributes),
+        product: slack_room.name
+      }
     }
+    payload.merge({auth: self.generate_headers(payload)})
   end
 
-  # private
+  def self.generate_headers(payload)
+    body = payload
+    timestamp = Time.now.to_i
+    prehash = "#{timestamp}#{body}"
+    secret = Base64.decode64(ENV['SLACKPIPE_SECRET'])
+    hash = OpenSSL::HMAC.digest('sha256', secret, prehash)
+    signature = Base64.encode64(hash)
+    {
+      signature: signature,
+      timestamp: timestamp
+    }
+  end
 
   # TODO: could use clean up
   def self.clean_body(body)

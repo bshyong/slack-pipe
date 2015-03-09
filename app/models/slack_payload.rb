@@ -6,10 +6,13 @@ class SlackPayload
     # > replaced with &gt;
     message.gsub!(/[&<>]/, '&' => '&amp;', '<' => '&lt;', '>' => '&gt;')
 
+    room = SlackRoom.find_by(name: payload[:product])
+    channel = room.general_channel
+
     prepped_payload = {
       text: message,
-      channel: "C03TTCR5P",
-      token: "xoxp-2170858457-2731791470-3818967378-dc1f57", 
+      channel: channel,
+      token: room.token,
       username: payload[:user_handle],
       icon_url: payload[:user_avatar]
     }

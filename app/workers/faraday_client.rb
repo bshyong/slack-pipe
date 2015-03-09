@@ -13,6 +13,8 @@ class FaradayClient
       end
     end
 
+    body.delete('token')
+
     log = ['  ', method, url, body.inspect, "[#{resp.status}]"]
     if !resp.success?
       log << resp.body.inspect

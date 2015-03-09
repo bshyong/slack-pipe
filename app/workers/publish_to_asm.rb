@@ -11,12 +11,18 @@ class PublishToAsm < FaradayClient
   # generate HMAC headers here, for every request before posting
 
   # payload = {
-  #   message: SlackPipe message log
-  #   user: SlackPipe user
-  #   product: assembly product slug
+  #   data: {
+  #     message: SlackPipe message log
+  #     user: SlackPipe user
+  #     product: assembly product slug
+  #   },
+  #   auth: {
+  #     signature: sig,
+  #     timestamp: time
+  #   }
   # }
-  def perform(payload)
 
+  def perform(payload)
     post('', payload)
     # send the text, user email, product slug, slack user handle
   end

@@ -7,6 +7,7 @@ class SlackPayload
     message.gsub!(/[&<>]/, '&' => '&amp;', '<' => '&lt;', '>' => '&gt;')
 
     room = SlackRoom.find_by(name: payload[:product])
+    return {} if room.nil?
     channel = room.general_channel
 
     prepped_payload = {

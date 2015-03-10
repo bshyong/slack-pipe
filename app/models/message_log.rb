@@ -10,7 +10,7 @@ class MessageLog < ActiveRecord::Base
   def publish!
     if channel == slack_room.general_channel && msg_subtype.nil? && user_id != 'USLACKBOT' 
       payload = AsmPayload.prepare(id)
-      PublishToAsm.perform_async(payload)
+      PublishToAsm.perform_async(payload) if slack_room.publish_to_asm
       # TODO: move update published_at into PublishToAsm worker?
       update_column :published_at, Time.now
     end

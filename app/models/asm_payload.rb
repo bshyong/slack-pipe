@@ -20,18 +20,18 @@ class AsmPayload
     payload = {
       data: {
         message: {msg_text: clean_msg_body},
-        user: user_attributes,
-        product: slack_room.name
+        product: slack_room.name,
+        user: user_attributes
       }
     }
     payload.merge({auth: self.generate_headers(payload)})
   end
 
   def self.generate_headers(payload)
-    body = payload[:data].to_json
+    body = Hash[payload[:data].sort_by(&:first)].to_json
     timestamp = Time.now.to_i
     prehash = "#{timestamp}#{body}"
-    secret = Base64.decode64(ENV['SLACKPIPE_SECRET'])
+    secret = Base64.decode64("ENV['SLACKPIPE_SECRET']")
     hash = OpenSSL::HMAC.digest('sha256', secret, prehash)
     signature = Base64.encode64(hash)
     {

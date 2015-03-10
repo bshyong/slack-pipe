@@ -16,8 +16,7 @@ class ApiController < ApplicationController
   def verify_auth
     auth = params.delete(:auth)
     payload = params[:message]
-
-    body = payload.to_json
+    body = Hash[payload.sort_by(&:first)].to_json
 
     timestamp = auth[:timestamp]
     prehash = "#{timestamp}#{body}"

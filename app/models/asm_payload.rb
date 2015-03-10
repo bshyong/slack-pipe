@@ -5,15 +5,22 @@ class AsmPayload
     slack_room = message_log.slack_room
 
     clean_msg_body = self.clean_body(message_log.msg_text)
-    clean_msg_log = message_log.attributes.merge({'msg_text' => clean_msg_body})
+
+    user = slack_room.users
+                      .where(
+                        slack_user_id: message_log.user_id)
+                      .first
+
+    user_attributes = {
+      email: user.email,
+      username: user.slack_handle,
+      full_name: user.real_name
+    }
 
     payload = {
       data: {
-        message: clean_msg_log,
-        user: slack_room.users
-                        .where(
-                          slack_user_id: message_log.user_id)
-                        .first.try(:attributes),
+        message: {msg_text: clean_msg_body},
+        user: user_attributes,
         product: slack_room.name
       }
     }

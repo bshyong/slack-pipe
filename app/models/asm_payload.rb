@@ -13,8 +13,8 @@ class AsmPayload
 
     user_attributes = {
       email: user.email,
-      username: user.slack_handle,
-      full_name: user.real_name
+      full_name: user.real_name,
+      username: user.slack_handle
     }
 
     payload = {
@@ -31,7 +31,7 @@ class AsmPayload
     body = Hash[payload[:data].sort_by(&:first)].to_json
     timestamp = Time.now.to_i
     prehash = "#{timestamp}#{body}"
-    secret = Base64.decode64("ENV['SLACKPIPE_SECRET']")
+    secret = Base64.decode64(ENV['SLACKPIPE_SECRET'])
     hash = OpenSSL::HMAC.digest('sha256', secret, prehash)
     signature = Base64.encode64(hash)
     {

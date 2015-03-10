@@ -11,17 +11,13 @@ class AsmPayload
                         slack_user_id: message_log.user_id)
                       .first
 
-    user_attributes = {
-      email: user.email,
-      full_name: user.real_name,
-      username: user.slack_handle
-    }
-
     payload = {
       data: {
-        message: {msg_text: clean_msg_body},
+        message: clean_msg_body,
         product: slack_room.name,
-        user: user_attributes
+        user_email: user.email,
+        user_full_name: user.real_name,
+        user_username: user.slack_handle
       }
     }
     payload.merge({auth: self.generate_headers(payload)})

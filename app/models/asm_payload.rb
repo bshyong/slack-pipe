@@ -21,7 +21,7 @@ class AsmPayload
   end
 
   def self.generate_headers(payload)
-    body = payload.to_json
+    body = payload[:data].to_json
     timestamp = Time.now.to_i
     prehash = "#{timestamp}#{body}"
     secret = Base64.decode64(ENV['SLACKPIPE_SECRET'])

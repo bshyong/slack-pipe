@@ -6,8 +6,7 @@ class SlackPayload
     # > replaced with &gt;
     message.gsub!(/[&<>]/, '&' => '&amp;', '<' => '&lt;', '>' => '&gt;')
 
-    slackroom_name = payload[:product] == 'general' ? 'meta' : payload[:product]
-    room = SlackRoom.find_by(name: slackroom_name)
+    room = SlackRoom.find_by(name: payload[:chat_room])
     return {} if room.nil? || !room.publish_to_slack
     channel = room.general_channel
 

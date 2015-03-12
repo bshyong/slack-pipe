@@ -13,8 +13,8 @@ class AsmPayload
 
     payload = {
       data: {
+        chat_room: slack_room.name,
         message: clean_msg_body,
-        product: slack_room.name,
         user_email: user.email,
         user_full_name: user.real_name,
         user_username: user.slack_handle

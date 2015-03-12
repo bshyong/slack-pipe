@@ -34,6 +34,6 @@ test:
 
 production:
   <<: *default
-  database: slackpipes_prod
+  database: <%= ENV["DATABASE_URL"] %>
 
 

@@ -6,14 +6,14 @@ class SlackPayload
     # > replaced with &gt;
     message.gsub!(/[&<>]/, '&' => '&amp;', '<' => '&lt;', '>' => '&gt;')
 
-    room = SlackRoom.find_by(name: payload[:chat_room])
-    return {} if room.nil? || !room.publish_to_slack
-    channel = room.general_channel
+    chat_room = ChatRoom.find_by(name: payload[:chat_room])
+
+    return {} if chat_room.nil? || !chat_room.slack_room.publish_to_slack
 
     prepped_payload = {
       text: message,
-      channel: channel,
-      token: room.token,
+      channel: chat_room.channel,
+      token: chat_room.slack_room.token,
       username: payload[:user_handle],
       icon_url: payload[:user_avatar]
     }

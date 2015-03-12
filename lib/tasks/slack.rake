@@ -12,6 +12,10 @@ namespace :slack do
     end
   end
 
+  task create_channels: :environment do
+    
+  end
+
     def fetch_messages(slack_room, latest=nil)
       response = Slack::Worker.new.get('channels.history', {token: slack_room.token, 
                                                             channel: slack_room.general_channel,

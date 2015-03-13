@@ -12,7 +12,7 @@ class CreateChatRooms < ActiveRecord::Migration
     add_column :message_logs, :chat_room_id, :integer
     add_index :message_logs, :chat_room_id
 
-    SlackRoom.each do |sr|
+    SlackRoom.all.each do |sr|
       # create chat rooms for each channel
       chat_room = sr.chat_rooms.create(channel: sr.general_channel, name: sr.name)
       # associate message logs with chat rooms

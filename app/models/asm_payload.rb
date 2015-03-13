@@ -11,9 +11,11 @@ class AsmPayload
                         slack_user_id: message_log.user_id)
                       .first
 
+    chat_room = message_log.chat_room
+
     payload = {
       data: {
-        chat_room: slack_room.name,
+        chat_room: chat_room.name,
         message: clean_msg_body,
         user_email: user.email,
         user_full_name: user.real_name,

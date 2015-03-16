@@ -40,10 +40,10 @@ class AsmPayload
 
   # TODO: could use clean up
   def self.clean_body(body)
-    matches =  body.match(/<(.*?)>/).try(:captures)
+    matches =  body.scan(/<(.*?)>/)
 
-    return body if matches.nil?
-    matches.each do |m|
+    return body if matches.blank?
+    matches.flatten.each do |m|
 
       first_two = m.slice(0,2)
 

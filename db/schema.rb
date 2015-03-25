@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309205231) do
+ActiveRecord::Schema.define(version: 20150312200735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chat_rooms", force: true do |t|
+    t.integer  "slack_room_id"
+    t.string   "channel"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "message_logs", force: true do |t|
     t.string   "user_id"
@@ -27,8 +35,10 @@ ActiveRecord::Schema.define(version: 20150309205231) do
     t.integer  "timestamp",     limit: 8
     t.text     "msg_text"
     t.datetime "published_at"
+    t.integer  "chat_room_id"
   end
 
+  add_index "message_logs", ["chat_room_id"], name: "index_message_logs_on_chat_room_id", using: :btree
   add_index "message_logs", ["slack_room_id"], name: "index_message_logs_on_slack_room_id", using: :btree
   add_index "message_logs", ["timestamp", "channel"], name: "index_message_logs_on_timestamp_and_channel", unique: true, using: :btree
 
@@ -49,7 +59,9 @@ ActiveRecord::Schema.define(version: 20150309205231) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "general_channel"
-    t.boolean  "active",          default: false
+    t.boolean  "active",           default: false
+    t.boolean  "publish_to_asm",   default: true
+    t.boolean  "publish_to_slack", default: true
   end
 
   create_table "users", force: true do |t|
